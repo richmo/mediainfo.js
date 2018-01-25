@@ -1,30 +1,76 @@
-# mediainfo.js
+# mediainfoJS
 
-This is a JavaScript port of the excellent [MediaInfoLib](https://mediaarea.net/en/MediaInfo) and meant to be run directly in a browser. mediainfo.js was created using [Emscripten](http://emscripten.org/).
+mediainfoJS was created using [Emscripten](http://emscripten.org/) and is a JavaScript port of [MediaInfoLib](https://mediaarea.net/en/MediaInfo).
 
-## Demo
+Meant to be run directly in a browser.
 
-Try it out in your browser:  [https://mediainfo.js.org](https://mediainfo.js.org)
+## Build on MAC
 
-## Build
+Download [Emscripten SDK for Linux and OS X](https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz)
 
 Make sure the
 [Emscripten tools](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
-can be found in `$PATH`. Something like this will do:
+can be found in your `$PATH`.
 
-    source ~/programs/emsdk_portable/emsdk_env.sh
+Unpackage emscripten `emsdk-portable.tar.gz` in a preferred directory. I used `~/programs/emsdk_portable/`:
 
-First you must build the dependencies:
+    cd ~/programs/emsdk_portable/
+    
+Update emscripten sdk:
+
+    ./emsdk update
+    
+If you already have emscripten installed you can list old sdks: 
+
+    ./emsdk list --old
+
+Install, activate and set environment variables for `emscripten-1.30.0` with the following commands:
+
+    ./emsdk install emscripten-1.30.0
+    
+    ./emsdk activate emscripten-1.30.0 
+    
+    source ./emsdk_env.sh
+
+Navigate to project directory:
+
+    cd /path/to/mediainfojs
+    
+Export LLVM path:
+
+    export LLVM=/Users/{username}/programs/emsdk-portable/clang/e1.30.0_64bit
+
+Ensure [automake](https://ftp.gnu.org/gnu/automake/automake-1.10.1.tar.bz2) v1.10.1 is installed:
+
+    automake --version
+    
+    tar xzf automake-1.10.1.tar.bz2
+    
+    cd automake-1.10.1
+    
+    ./configure --prefix=/usr/local
+    
+    make
+    
+    sudo make install
+    
+Ensure pkg-config is installed:
+
+    brew install pkg-config
+
+Build the dependencies required for compilation:
 
     ./build-deps.sh
 
-Then build `mediainfo.js` using:
+Build `mediainfo.js` using:
 
     ./build.sh
 
-The resulting files are `mediainfo.js` and `mediainfo.js.mem`.
+The resulting files will be `mediainfo.js` and `mediainfo.js.mem`.
 
 ## Using mediainfo.js
+
+Define mediainfo CLI options inside mediainfojs.cpp `line:9` 
 
 The API is defined in [`mediainfojs.cpp`](https://github.com/buzz/mediainfo.js/blob/master/mediainfojs.cpp) and currently exposes the following methods from [MediaInfoLib::MediaInfo](https://mediaarea.net/en/MediaInfo/Support/SDK/Doxygen/class_media_info_lib_1_1_media_info.html):
 
@@ -34,10 +80,6 @@ The API is defined in [`mediainfojs.cpp`](https://github.com/buzz/mediainfo.js/b
 * open_buffer_continue_goto_get
 * inform
 * close
-
-You can check out [this example](https://github.com/buzz/mediainfo.js/blob/gh-pages/js/mediainfopage.js#L93) on how mediainfo.js is used in the browser.
-
-See [this issue](/../../issues/5) on how to use mediainfo.js with Node.js.
 
 ## License
 

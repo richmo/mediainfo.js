@@ -8,6 +8,8 @@ public:
   MediaInfoJs() {
     mi.Option(__T("Output"), __T("XML"));
     mi.Option(__T("File_IsSeekable"), __T("1"));
+    mi.Option(__T("Full"));
+    mi.Option(__T("Language"), __T("raw"));
   }
   int open(const std::string& data, double fileSize) {
     return mi.Open((const ZenLib::int8u*)data.data(), data.size(), NULL, 0, (ZenLib::int64u)fileSize);
